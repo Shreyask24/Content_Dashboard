@@ -1,4 +1,3 @@
-// components/PreferencesPanel.tsx
 'use client';
 import { useState, useEffect } from 'react';
 
@@ -30,10 +29,9 @@ export default function PreferencesPanel({
     };
 
     const resetPreferences = () => {
-        const defaults = [""];
-        localStorage.setItem("userPreferences", JSON.stringify(defaults));
-        setSelected(defaults);
-        onSave(defaults);
+        localStorage.removeItem("userPreferences");
+        setSelected([]);
+        onSave([]);
     };
 
     return (

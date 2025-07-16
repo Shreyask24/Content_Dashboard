@@ -7,7 +7,6 @@ const links = [
     { href: "/", label: "Feed" },
     { href: "/trending", label: "Trending" },
     { href: "/favorites", label: "Favorites" },
-    { href: "/settings", label: "Settings" },
 ];
 
 export default function Sidebar() {
@@ -21,8 +20,8 @@ export default function Sidebar() {
                         key={link.href}
                         href={link.href}
                         className={`block px-2 py-1 rounded ${pathname === link.href
-                                ? "bg-blue-600 text-white"
-                                : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                            ? "bg-blue-600 text-white"
+                            : "hover:bg-gray-100 dark:hover:bg-gray-700"
                             }`}
                     >
                         {link.label}

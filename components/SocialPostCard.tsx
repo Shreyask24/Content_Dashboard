@@ -13,9 +13,22 @@ interface SocialPostCardProps {
         views: number;
         userId: number;
     };
+    onRemove?: () => void;
 }
 
-export default function SocialPostCard({ post }: SocialPostCardProps) {
+export default function SocialPostCard({ post, onRemove }: SocialPostCardProps) {
+    const handleFavorites = () => {
+        const existing = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+        const alreadySaved = existing.some((item: any) => item.id === post.id);
+        if (!alreadySaved) {
+            localStorage.setItem("favorites", JSON.stringify([...existing, post]));
+            alert("Saved to Favorites!");
+        } else {
+            alert("Already in favorites.");
+        }
+    }
+
     const fakeTimestamp = new Date(Date.now() - post.id * 100000000).toISOString(); // simulate varied timestamps
 
     return (
@@ -54,6 +67,23 @@ export default function SocialPostCard({ post }: SocialPostCardProps) {
                 <span>👍 {post.reactions.likes} • 👎 {post.reactions.dislikes}</span>
                 <span>{post.views} views</span>
             </div>
+
+            {onRemove ? (
+                <button
+                    onClick={onRemove}
+                    className="text-xs text-red-500 mt-1 hover:underline"
+                >
+                    ❌ Remove from Favorites
+                </button>
+            ) : (
+                <button
+                    onClick={handleFavorites}
+                    className="text-xs text-blue-500 mt-1 hover:underline"
+                >
+                    ⭐ Save to Favorites
+                </button>
+            )}
+
         </div>
     );
 }

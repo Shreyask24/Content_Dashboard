@@ -9,6 +9,20 @@ export const fetchSocialPosts = createAsyncThunk(
     }
 );
 
+export const fetchTrendingSocialPosts = createAsyncThunk(
+    "social/fetchTrendingSocialPosts",
+    async () => {
+        const res = await axios.get("https://dummyjson.com/posts?limit=12");
+
+        const trending = res.data.posts
+            .sort((a: any, b: any) => b.reactions.likes - a.reactions.likes)
+            .slice(0, 12);
+
+        return trending;
+    }
+);
+
+
 const socialSlice = createSlice({
     name: "social",
     initialState: {
@@ -29,8 +43,12 @@ const socialSlice = createSlice({
             .addCase(fetchSocialPosts.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || "Failed to fetch social posts";
+            })
+            .addCase(fetchTrendingSocialPosts.fulfilled, (state, action) => {
+                state.posts = action.payload;
             });
-    },
+    }
+
 });
 
 export default socialSlice.reducer;

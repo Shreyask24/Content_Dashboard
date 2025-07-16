@@ -32,7 +32,7 @@ export default function HomePage() {
       <PreferencesPanel onSave={loadContent} />
 
       {loading ? (
-        <p>Loading content...</p>
+        <p className='flex justify-center items-center'>Loading content...</p>
       ) : (
         <>
           <section className="mb-8">

@@ -6,17 +6,38 @@ const NEWS_API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY;
 export const fetchNews = createAsyncThunk(
     "news/fetchNews",
     async (categories: string[] = ["technology"]) => {
-        const category = categories[0];
-        const res = await axios.get(`https://newsapi.org/v2/top-headlines`, {
+        const query = categories.join(" OR ");
+
+        const res = await axios.get("https://newsapi.org/v2/everything", {
             params: {
-                category,
-                country: "us",
+                q: query,
                 apiKey: NEWS_API_KEY,
             },
         });
+
         return res.data.articles;
     }
 );
+
+
+export const fetchTrendingNews = createAsyncThunk(
+    "news/fetchTrendingNews",
+    async (categories: string[]) => {
+        const query = categories.join(" OR ");
+
+        const res = await axios.get("https://newsapi.org/v2/everything", {
+            params: {
+                q: query,
+                sortBy: "popularity",
+                apiKey: NEWS_API_KEY,
+            },
+        });
+
+        return res.data.articles.slice(0, 12);
+    }
+);
+
+
 
 const newsSlice = createSlice({
     name: "news",
@@ -38,8 +59,11 @@ const newsSlice = createSlice({
             .addCase(fetchNews.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || "Failed to fetch news";
+            })
+            .addCase(fetchTrendingNews.fulfilled, (state, action) => {
+                state.articles = action.payload;
             });
-    },
+    }
 });
 
 export default newsSlice.reducer;
