@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PreferencesState {
     categories: string[];
-    darkMode: boolean;
 }
 
 const initialState: PreferencesState = {
-    categories: ["technology", "sports"],
-    darkMode: false,
+    categories: typeof window !== "undefined"
+        ? JSON.parse(localStorage.getItem("categories") || '["technology"]')
+        : ["technology"],
 };
 
 const preferencesSlice = createSlice({
@@ -16,12 +16,12 @@ const preferencesSlice = createSlice({
     reducers: {
         setCategories(state, action: PayloadAction<string[]>) {
             state.categories = action.payload;
-        },
-        toggleDarkMode(state) {
-            state.darkMode = !state.darkMode;
+            if (typeof window !== "undefined") {
+                localStorage.setItem("categories", JSON.stringify(action.payload));
+            }
         },
     },
 });
 
-export const { setCategories, toggleDarkMode } = preferencesSlice.actions;
+export const { setCategories } = preferencesSlice.actions;
 export default preferencesSlice.reducer;
