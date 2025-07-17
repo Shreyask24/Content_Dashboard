@@ -40,7 +40,7 @@ export default function HomePage() {
   return (
     <DashboardLayout onSearchChange={setSearchQuery}>
       {loading ? (
-        <p>Loading content...</p>
+        <p className="flex justify-center items-center">Loading content...</p>
       ) : (
         <>
           <section className="mb-8">
