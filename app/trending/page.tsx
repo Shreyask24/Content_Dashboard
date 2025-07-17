@@ -27,12 +27,25 @@ export default function TrendingPage() {
         loadContent(userPrefs);
     }, []);
 
+    const query = useAppSelector((s) => s.search.query.toLowerCase());
+
+    const filteredNews = trendingNews.filter(item =>
+        item.title.toLowerCase().includes(query) ||
+        item.description?.toLowerCase().includes(query)
+    );
+
+    const filteredPosts = trendingPosts.filter(post =>
+        post?.content?.toLowerCase().includes(query) ||
+        post?.author?.toLowerCase().includes(query)
+    );
+
+
     return (
         <DashboardLayout>
             <>
                 <section className="mb-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {trendingNews.map((item, i) => (
+                        {filteredNews.map((item, i) => (
                             <NewsCard key={i} article={item} />
                         ))}
                     </div>
@@ -41,7 +54,7 @@ export default function TrendingPage() {
                 <section>
                     <h2 className="text-xl font-semibold mb-3">Most Liked Posts</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {trendingPosts.map((post, i) => (
+                        {filteredPosts.map((post, i) => (
                             <SocialPostCard key={i} post={post} />
                         ))}
                     </div>

@@ -1,3 +1,6 @@
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
 // components/NewsCard.tsx
 interface NewsCardProps {
     article: {
@@ -12,6 +15,13 @@ interface NewsCardProps {
 }
 
 export default function NewsCard({ article, onRemove }: NewsCardProps) {
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const handleFavorites = () => {
         const existing = JSON.parse(localStorage.getItem("favorites") || "[]");
         const alreadySaved = existing.some((item: any) => item.url === article.url);
@@ -24,8 +34,11 @@ export default function NewsCard({ article, onRemove }: NewsCardProps) {
 
     }
 
+    if (!mounted) return null;
+
+
     return (
-        <div className="bg-white dark:bg-gray-800 shadow rounded-xl p-4 flex flex-col h-full">
+        <div className={`${theme === 'dark' ? 'bg-gray-800 border border-white' : 'bg-white border border-black text-black'} shadow rounded-xl p-4 flex flex-col h-full`}>
             {article.urlToImage && (
                 <img
                     src={article.urlToImage}
@@ -35,11 +48,11 @@ export default function NewsCard({ article, onRemove }: NewsCardProps) {
             )}
             <h3 className="font-semibold text-lg mb-1 line-clamp-2">{article.title}</h3>
             {article.description && (
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-3">
+                <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-800'} text-sm mb-2 line-clamp-3`}>
                     {article.description}
                 </p>
             )}
-            <div className="text-xs text-gray-500 mb-2 mt-auto">
+            <div className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-black'} mb-2 mt-auto`}>
                 {article.source?.name} • {new Date(article.publishedAt || "").toLocaleDateString()}
             </div>
             <a
