@@ -67,14 +67,14 @@ export default function NewsCard({ article, onRemove }: NewsCardProps) {
             {onRemove ? (
                 <button
                     onClick={onRemove}
-                    className="text-xs text-red-500 mt-1 hover:underline"
+                    className="text-xs text-red-500 mt-1 hover:underline cursor-pointer"
                 >
                     ❌ Remove from Favorites
                 </button>
             ) : (
                 <button
                     onClick={handleFavorites}
-                    className="text-xs text-blue-500 mt-1 hover:underline"
+                    className="text-xs text-blue-500 mt-1 hover:underline cursor-pointer"
                 >
                     ⭐ Save to Favorites
                 </button>
