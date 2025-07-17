@@ -1,6 +1,6 @@
 import { SlLike } from "react-icons/sl";
 
-interface SocialPostCardProps {
+export interface SocialPostCardProps {
     post: {
         id: number;
         title: string;

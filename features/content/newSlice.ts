@@ -1,7 +1,14 @@
+import { NewsArticle } from "@/types";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const NEWS_API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY;
+
+
+export type NewsState = {
+    articles: NewsArticle[];
+    loading: boolean;
+};
 
 export const fetchNews = createAsyncThunk(
     "news/fetchNews",

@@ -5,15 +5,16 @@ import DashboardLayout from "@/components/Layout/DashboardLayout";
 import NewsCard from "@/components/NewCard";
 import SocialPostCard from "@/components/SocialPostCard";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchNews } from "@/features/content/newSlice";
-import { fetchSocialPosts } from "@/features/content/socialSlice";
+import { fetchNews, NewsState } from "@/features/content/newSlice";
+import { fetchSocialPosts, SocialState } from "@/features/content/socialSlice";
+import { SocialPost } from "@/types";
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { articles: news, loading: newsLoading } = useAppSelector((s) => s.news);
-  const { posts, loading: postsLoading } = useAppSelector((s) => s.social);
+  const { articles: news, loading: newsLoading } = useAppSelector((s) => s.news) as NewsState;
+  const { posts, loading: postsLoading } = useAppSelector((s) => s.social) as SocialState;
 
   useEffect(() => {
     const userPrefs = JSON.parse(localStorage.getItem("userPreferences") || `["technology"]`);
@@ -55,7 +56,7 @@ export default function HomePage() {
             <h2 className="text-xl font-bold mb-2">Social Posts</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {filteredPosts.map((post, i) => (
-                <SocialPostCard key={i} post={post} />
+                <SocialPostCard key={i} post={post as Required<SocialPost>} />
               ))}
             </div>
           </section>

@@ -1,5 +1,12 @@
+import { SocialPost } from "@/types";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+
+export type SocialState = {
+    posts: SocialPost[];
+    loading: boolean;
+};
+
 
 export const fetchSocialPosts = createAsyncThunk(
     "social/fetchSocialPosts",
