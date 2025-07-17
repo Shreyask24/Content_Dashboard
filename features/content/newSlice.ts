@@ -8,6 +8,13 @@ const NEWS_API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY;
 export type NewsState = {
     articles: NewsArticle[];
     loading: boolean;
+    error: string | null;
+};
+
+const initialState: NewsState = {
+    articles: [],
+    loading: false,
+    error: null,
 };
 
 export const fetchNews = createAsyncThunk(
@@ -48,11 +55,7 @@ export const fetchTrendingNews = createAsyncThunk(
 
 const newsSlice = createSlice({
     name: "news",
-    initialState: {
-        articles: [],
-        loading: false,
-        error: null,
-    },
+    initialState,
     reducers: {},
     extraReducers(builder) {
         builder

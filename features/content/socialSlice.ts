@@ -5,7 +5,14 @@ import axios from "axios";
 export type SocialState = {
     posts: SocialPost[];
     loading: boolean;
+    error: string | null;
 };
+
+const initialState: SocialState = {
+    posts: [],
+    loading: false,
+    error: null,
+}
 
 
 export const fetchSocialPosts = createAsyncThunk(
@@ -32,11 +39,7 @@ export const fetchTrendingSocialPosts = createAsyncThunk(
 
 const socialSlice = createSlice({
     name: "social",
-    initialState: {
-        posts: [],
-        loading: false,
-        error: null,
-    },
+    initialState,
     reducers: {},
     extraReducers(builder) {
         builder

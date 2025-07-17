@@ -19,5 +19,7 @@ export interface SocialPost {
     };
     views?: number;
     userId?: number;
+    content?: string;
+    author?: string
 }
 
